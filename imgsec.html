@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>imgAreaSelect</title>
+		<style>input{width:70px;}</style>
+	<link rel="stylesheet" type="text/css" href="css/imgareaselect-animated.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.imgareaselect.min.js"></script>
+	</head>
+	<body>
+		<div class="frame" style="width: 300px; height: 300px;float:left;margin-right:50px">
+			<img id="photo" src="images/flower2.jpg">
+		</div>
+		<div id="preview" style="width: 100px; height: 100px; overflow: hidden;">
+			<img src="images/flower2.jpg" style="width: 100px; height: 100px;">
+		</div><br/><br/>
+		<form action="youraction" method="post">
+			x :<input id="startX" name="startX" readonly="readonly"/>
+			y :<input id="startY" name="startY" readonly="readonly"/><br/>
+			宽:<input id="width" name="width" readonly="readonly"/>
+			高:<input id="height" name="height" readonly="readonly"/>
+		</form>
+		<script type="text/javascript">
+			function preview(img, selection) {
+				
+				if (!selection.width || !selection.height)
+					return;
+				var scaleX = 100 / selection.width;
+				var scaleY = 100 / selection.height;
+
+				$('#preview img').css({
+					width : Math.round(scaleX * 300),
+					height : Math.round(scaleY * 300),
+					marginLeft : -Math.round(scaleX * selection.x1),
+					marginTop : -Math.round(scaleY * selection.y1)
+				});
+				
+				$("#startX").val(selection.x1);
+				$("#startY").val(selection.y1);
+				$("#width").val(selection.width);
+				$("#height").val(selection.height);
+			}
+			
+			$(function() {
+				$('#photo').imgAreaSelect({
+					aspectRatio : '1:1',
+					handles : true,
+					fadeSpeed : 200,
+					onSelectChange : preview,
+					x1: 0, y1: 0, x2: 240, y2: 240
+				});
+			});
+		</script>
+	</body>
+</html>
